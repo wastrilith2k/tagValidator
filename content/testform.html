@@ -1,0 +1,66 @@
+<form method="post" id="createtest">
+  <div class="form-element">
+    <label>Test name: </label>
+    <input type="text" name="test_name" id="testname" value="*|TESTNAME|*"/>
+  </div>
+  <div class="form-element">
+    <label>Initial URL: </label>
+    <input type="text" name="initial_url" id="initial_url" value="*|INITIAL_URL|*" />
+  </div>
+  <div class="form-element">
+    <label>Maximum depth: </label>
+    <span id="depth-count"></span>
+    <input type="hidden" name="max_link_depth" id="max_link_depth" value="*|MAX_LINK_DEPTH|*" />
+    <span class="slider" id="depth-slider"></span>
+  </div>
+  <div class="form-element">
+    <label>Maximum number of links crawled: </label>
+    <span id="crawled-count"></span>
+    <input type="hidden" name="max_links_crawled" id="max_links_crawled" value="*|MAX_LINKS_CRAWLED|*" />
+    <span class="slider" id="crawled-slider"></span>
+  </div>
+  <div class="form-element">
+    <label>Whitelist: </label>
+    <input type="text" name="whitelist" id="whitelist" value="*|WHITELIST|*" />
+  </div>
+  <div class="form-element">
+    <label>Blacklist: </label>
+    <input type="text" name="blacklist" id="blacklist" value="*|BLACKLIST|*" />
+  </div>
+  <div class="form-element">
+    <label>Allow offsite links: </label>
+    <input type="checkbox" name="allow_offsite" id="allow_offsite" *|ALLOW_OFFSITE|* value="1"/>
+  </div>
+  <input type="submit" value="Save test" name="op"/>
+</form>
+<script>
+  $(function () {
+    // Max Depth
+    $("#depth-slider").slider(
+      {
+        change: function (event, ui) {
+          $('#max_link_depth').val(ui.value);
+          $('#depth-count').text(ui.value);
+        }
+      }
+    );
+    $("#depth-slider").slider("option", "min", 1);
+    $("#depth-slider").slider("option", "max", 100);
+    $("#depth-slider").slider("value", *|MAX_LINK_DEPTH|*);
+    $('#depth-count').text("*|MAX_LINK_DEPTH|*");
+    // Max links
+    $("#crawled-slider").slider(
+      {
+        change: function (event, ui) {
+          $('#max_links_crawled').val(ui.value);
+          $('#crawled-count').text(ui.value);
+        }
+      }
+    );
+    $("#crawled-slider").slider("option", "min", 1);
+    $("#crawled-slider").slider("option", "max", 30000);
+    $("#crawled-slider").slider("value", *|MAX_LINKS_CRAWLED|*);
+    $('#crawled-count').text("*|MAX_LINKS_CRAWLED|*");
+  });
+</script>
+<div id="actions"><a href="managetest.php">cancel</a></div>

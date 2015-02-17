@@ -1,0 +1,58 @@
+<table id="testoverview">
+  <tr><td>Test name:</td><td>*|TESTNAME|*</td></tr>
+  <tr><td>Initial URL:</td><td>*|INITIAL_URL|*</td></tr>
+  <tr><td>Maximum depth:</td><td>*|MAX_LINK_DEPTH|*</td></tr>
+  <tr><td>Maximum number of links crawled:</td><td>*|MAX_LINKS_CRAWLED|*</td></tr>
+  <tr><td>Whitelist:</td><td>*|WHITELIST|*</td></tr>
+  <tr><td>Blacklist:</td><td>*|BLACKLIST|*</td></tr>
+  <tr><td>Allow offsite links:</td><td>*|ALLOW_OFFSITE|*</td></tr>
+  <tr><td>Status:</td><td id="status_text">*|STATUS|*</td></tr>
+</table>
+<input id="test_id" value="*|TEST_ID|*" type="hidden" />
+<div id="actions"><a href="edittest.php?testid=*|TEST_ID|*">edit</a>|<a href="managerules.php?testid=*|TEST_ID|*">manage rules</a>|<a href="managetests.php">manage tests</a>|<a class="starttest" href="javascript:startTest()">start test</a>|<a class="canceltest" href="javascript:cancelTest()">cancel test</a></div>
+<div id="rules">
+  *|RULES_RESULTS|*
+</div>
+<script>  
+  var statusInt = setInterval(function () {
+    $.ajax({
+      url: "teststatus.php?testid=*|TEST_ID|*",
+      dataType: 'json',
+      type: "GET"
+    })
+    .done(function (data) {
+      var status = {}; status['0'] = 'Inactive'; status['1'] = 'Crawling'; status['2'] = 'Testing'; status['3'] = 'Complete';
+      if (data.status == 1) {
+        $('#status_text').text(status[data.status] + '- Completed ' + data.count + ' urls.');
+      } else if (data.status == 2) {
+        $('#status_text').text('Performing tests.');
+      } else if (data.status == 3) {
+        $('#status_text').text('Completed.');
+        window.clearInterval(statusInt);
+      }
+    })
+    .fail(function () {
+    })
+    .always(function () {
+    })
+  }, 2000);
+
+  function startTest() {
+    $('#status_text').text('Crawling...');
+    $('.canceltest').show();
+    $('.starttest').hide();
+    $.ajax({
+      url: "starttest.php?testid=*|TEST_ID|*",
+      type: "GET"
+    });
+  }
+  function cancelTest() {
+    $('#status_text').text('Inactive');
+    $('.canceltest').hide();
+    $('.starttest').show();
+    $.ajax({
+      url: "canceltest.php?testid=*|TEST_ID|*",
+      type: "GET"
+    });
+  }
+</script>

@@ -1,0 +1,24 @@
+body {
+}
+
+.slider {
+  width: 200px;
+  display: inline-block;
+  margin-left:20px;
+}
+.form-element {
+  padding: 10px 0px;
+}
+.form-element label {
+  width: 200px;
+}
+#testoverview label {
+  width:200px;
+  display: inline-block;
+}
+#testoverview span {
+  clear: right;
+}
+.canceltest {
+  display: none;
+}
